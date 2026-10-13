@@ -1,0 +1,118 @@
+/* ── Contact Modal ──────────────────────────────────────── */
+
+.contact-modal__form { display: flex; flex-direction: column; gap: var(--space-4); }
+
+.contact-modal__property-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-primary-50);
+  color: var(--color-primary-700);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  border: 1px solid var(--color-primary-200);
+}
+
+.contact-modal__error {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-error-bg);
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-error);
+}
+
+.contact-modal__label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.contact-modal__req { color: var(--color-error); }
+
+.contact-modal__msg-field { display: flex; flex-direction: column; gap: 0; }
+
+.contact-modal__textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  resize: vertical;
+  min-height: 120px;
+  outline: none;
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  line-height: var(--leading-relaxed);
+}
+
+.contact-modal__textarea:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px rgb(30 58 95 / 0.1);
+}
+
+.contact-modal__textarea--error { border-color: var(--color-error); }
+.contact-modal__textarea--error:focus { box-shadow: 0 0 0 3px rgb(220 38 38 / 0.1); }
+
+.contact-modal__msg-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-1);
+  min-height: 18px;
+}
+
+.contact-modal__field-err { font-size: var(--text-xs); color: var(--color-error); }
+
+.contact-modal__char-count {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-left: auto;
+}
+.contact-modal__char-count--warn { color: var(--color-warning); font-weight: var(--font-medium); }
+
+.contact-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+}
+
+/* Success state */
+.contact-modal__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+  padding: var(--space-4) 0 var(--space-2);
+}
+
+.contact-modal__success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  background: var(--color-success-bg);
+  border-radius: var(--radius-2xl);
+}
+
+.contact-modal__success-title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--color-primary-900);
+}
+
+.contact-modal__success-sub {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  max-width: 36ch;
+  line-height: var(--leading-relaxed);
+}

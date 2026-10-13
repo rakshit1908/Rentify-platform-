@@ -1,0 +1,10 @@
+/* ============================================================
+   RENTIFY — GLOBAL STYLES ENTRY POINT
+   Import order matters — variables must come first.
+   ============================================================ */
+
+@import './variables.css';
+@import './reset.css';
+@import './typography.css';
+@import './animations.css';
+@import './utilities.css';

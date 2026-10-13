@@ -1,0 +1,273 @@
+/* ============================================================
+   RENTIFY — ANIMATIONS & TRANSITIONS
+   Tasteful, premium animations for enhanced UX
+   ============================================================ */
+
+/* ── Keyframes ──────────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ── Animation Utility Classes ──────────────────────────── */
+
+.animate-fade-in {
+  animation: fadeIn var(--duration-slow) var(--ease-out) forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp var(--duration-slow) var(--ease-out) forwards;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown var(--duration-slow) var(--ease-out) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn var(--duration-normal) var(--ease-out) forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight var(--duration-slow) var(--ease-out) forwards;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+  background: linear-gradient(
+    to right,
+    var(--color-gray-200) 0%,
+    var(--color-gray-100) 20%,
+    var(--color-gray-200) 40%,
+    var(--color-gray-200) 100%
+  );
+  background-size: 1000px 100%;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ── Transition Utilities ───────────────────────────────── */
+
+.transition-all {
+  transition: all var(--transition-base);
+}
+
+.transition-colors {
+  transition: background-color var(--transition-base),
+              border-color var(--transition-base),
+              color var(--transition-base);
+}
+
+.transition-transform {
+  transition: transform var(--transition-base);
+}
+
+.transition-opacity {
+  transition: opacity var(--transition-base);
+}
+
+.transition-shadow {
+  transition: box-shadow var(--transition-base);
+}
+
+/* ── Reduced Motion Support ─────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-fade-in-down,
+  .animate-scale-in,
+  .animate-slide-in-right {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .animate-shimmer {
+    animation: none;
+  }
+
+  .transition-all,
+  .transition-colors,
+  .transition-transform,
+  .transition-opacity,
+  .transition-shadow {
+    transition: none;
+  }
+}
+
+/* ── Hover Effects (Card, Button, etc.) ─────────────────── */
+
+.hover-lift {
+  transition: transform var(--transition-base), 
+              box-shadow var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.hover-scale {
+  transition: transform var(--transition-base);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-brightness {
+  transition: filter var(--transition-base);
+}
+
+.hover-brightness:hover {
+  filter: brightness(1.05);
+}
+
+/* ── Focus Styles ───────────────────────────────────────── */
+
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color var(--transition-fast);
+}
+
+.focus-ring:focus-visible {
+  outline-color: var(--color-navy-500);
+}
+
+/* ── Page Transitions ───────────────────────────────────── */
+
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
+}
+
+/* ── Modal/Overlay Animations ───────────────────────────── */
+
+.modal-backdrop-enter {
+  opacity: 0;
+}
+
+.modal-backdrop-enter-active {
+  opacity: 1;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.modal-backdrop-exit {
+  opacity: 1;
+}
+
+.modal-backdrop-exit-active {
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-in);
+}
+
+.modal-content-enter {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.modal-content-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
+}
+
+.modal-content-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.modal-content-exit-active {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity var(--duration-fast) var(--ease-in),
+              transform var(--duration-fast) var(--ease-in);
+}

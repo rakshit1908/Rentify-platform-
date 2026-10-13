@@ -1,0 +1,108 @@
+/* ── Modal ──────────────────────────────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 29, 32, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  z-index: var(--z-modal);
+  animation: overlay-in var(--duration-normal) var(--ease-out);
+}
+
+@keyframes overlay-in {
+  from { 
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to   { 
+    opacity: 1;
+    backdrop-filter: blur(2px);
+  }
+}
+
+.modal {
+  background: var(--color-surface);
+  border-radius: var(--radius-2xl);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-height: calc(100vh - var(--space-16));
+  overflow-y: auto;
+  animation: modal-in var(--duration-slow) cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--color-border-light);
+}
+
+@keyframes modal-in {
+  from { 
+    opacity: 0; 
+    transform: translateY(24px) scale(0.96); 
+  }
+  to   { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay { 
+    animation: none;
+    backdrop-filter: none;
+  }
+  .modal { 
+    animation: none;
+    transform: none;
+  }
+}
+
+/* Sizes */
+.modal--sm { max-width: 400px; }
+.modal--md { max-width: 560px; }
+.modal--lg { max-width: 720px; }
+.modal--xl { max-width: 960px; }
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-6) var(--space-6) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal__title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  flex-shrink: 0;
+}
+
+.modal__close:hover {
+  background: var(--color-gray-100);
+  color: var(--color-text);
+  transform: rotate(90deg);
+}
+
+.modal__close:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
+.modal__body {
+  padding: var(--space-6);
+}

@@ -1,0 +1,103 @@
+/* ── Input Field ────────────────────────────────────────── */
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.input-field__label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text);
+}
+
+.input-field__required {
+  color: var(--color-error);
+}
+
+.input-field__wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.input-field__wrapper:hover:not(.input-field__wrapper--disabled) {
+  border-color: var(--color-gray-400);
+}
+
+.input-field__wrapper:focus-within {
+  border-color: var(--color-navy-500);
+  box-shadow: 0 0 0 4px rgba(30, 58, 95, 0.1);
+  background: var(--color-white);
+}
+
+.input-field__wrapper--error {
+  border-color: var(--color-error);
+  background: var(--color-error-bg);
+}
+
+.input-field__wrapper--error:focus-within {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+  background: var(--color-white);
+}
+
+.input-field__wrapper--disabled {
+  background: var(--color-surface-alt);
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.input-field__input {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  min-height: 44px;
+}
+
+.input-field__input::placeholder {
+  color: var(--color-text-light);
+}
+
+.input-field__input:disabled {
+  cursor: not-allowed;
+}
+
+.input-field__input--left-icon  { padding-left: var(--space-10); }
+.input-field__input--right-icon { padding-right: var(--space-10); }
+
+.input-field__icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.input-field__icon--left  { left: var(--space-3); }
+.input-field__icon--right { right: var(--space-3); }
+
+.input-field__error {
+  font-size: var(--text-xs);
+  color: var(--color-error);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.input-field__hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}

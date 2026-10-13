@@ -1,0 +1,206 @@
+╔═══════════════════════════════════════════════════════════════╗
+║            🚀 RENTIFY - SUPABASE QUICK SETUP                  ║
+║                 (5 Minute Setup Guide)                        ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📋 STEP 1: CREATE SUPABASE PROJECT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Go to: https://supabase.com/
+2. Sign in → Click "New Project"
+3. Fill:
+   Name: rentify
+   Password: [Create strong password - SAVE IT!]
+   Region: Mumbai (or closest to you)
+4. Click "Create new project"
+5. Wait 2-3 minutes ⏳
+
+🔑 STEP 2: GET API KEYS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. In Supabase Dashboard → Click "Settings" ⚙️
+2. Click "API" tab
+3. Copy these 3 values:
+
+   ✓ Project URL:        https://xxxxx.supabase.co
+   ✓ anon public key:    eyJhbGci... (long key)
+   ✓ service_role key:   eyJhbGci... (long key) ⚠️ SECRET!
+
+🗄️ STEP 3: CREATE TABLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. In Supabase Dashboard → Click "SQL Editor"
+2. Click "New Query"
+3. Open file: d:\Rentify\backend\database\001_schema.sql
+4. Copy ALL contents → Paste in SQL Editor
+5. Click "Run" ▶️
+6. ✅ Should say "Success. No rows returned"
+
+Repeat for these files:
+   → 002_rls_policies.sql
+   → 003_storage.sql
+
+🔐 STEP 4: ENABLE EMAIL AUTH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. In Supabase → "Authentication" → "Providers"
+2. Enable "Email" provider
+3. Go to "URL Configuration"
+4. Set Site URL: http://localhost:5173
+5. Add Redirect URL: http://localhost:5173/**
+6. Save
+
+📝 STEP 5: UPDATE ENVIRONMENT FILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+A) BACKEND (.env) - d:\Rentify\backend\.env
+   ─────────────────────────────────────────────
+   Replace these lines with YOUR values:
+
+   SUPABASE_URL=https://xxxxx.supabase.co
+   SUPABASE_ANON_KEY=eyJhbGci...
+   SUPABASE_SERVICE_ROLE_KEY=eyJhbGci...  ⚠️ Keep secret!
+
+B) FRONTEND (.env) - d:\Rentify\frontend\.env
+   ─────────────────────────────────────────────
+   Already configured! ✅
+   
+   Just verify:
+   VITE_SUPABASE_URL=https://hcgsuzfbpgsmwxgxcdsn.supabase.co
+   VITE_SUPABASE_ANON_KEY=eyJhbGci...
+
+🔄 STEP 6: RESTART SERVERS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Stop current servers (Ctrl+C in both terminals)
+
+Terminal 1 - Backend:
+   cd d:\Rentify\backend
+   node server.js
+
+Terminal 2 - Frontend:
+   cd d:\Rentify\frontend
+   npm run dev
+
+✅ VERIFY: No "Supabase credentials missing" warnings!
+
+🧪 STEP 7: TEST IT!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Open: http://localhost:5173/
+2. Click "Sign In" → "Create Account"
+3. Register:
+   Email: your-email@example.com
+   Password: Test123!@#
+   Name: Test User
+   Phone: 9876543210
+   Role: Renter
+4. Click "Register"
+5. Check email for confirmation! 📧
+6. Click confirmation link
+7. Login ✅
+
+╔═══════════════════════════════════════════════════════════════╗
+║                    📊 DATABASE TABLES                         ║
+╚═══════════════════════════════════════════════════════════════╝
+
+After setup, you'll have these tables:
+
+┌─────────────────────┬──────────────────────────────────────────┐
+│ TABLE               │ PURPOSE                                  │
+├─────────────────────┼──────────────────────────────────────────┤
+│ users               │ User profiles (owner/renter)             │
+│ properties          │ Property listings                        │
+│ property_images     │ Property photos                          │
+│ favorites           │ Saved properties                         │
+│ inquiries           │ Contact messages                         │
+└─────────────────────┴──────────────────────────────────────────┘
+
+Storage Bucket: property-images (for uploading photos)
+
+╔═══════════════════════════════════════════════════════════════╗
+║                    🎯 WHAT YOU'LL BE ABLE TO DO               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+AS OWNER:
+  ✓ Register/Login
+  ✓ Create property listings
+  ✓ Upload property images
+  ✓ Edit/Delete properties
+  ✓ View inquiries from renters
+  ✓ Update inquiry status
+
+AS RENTER:
+  ✓ Register/Login
+  ✓ Browse properties
+  ✓ Search & Filter
+  ✓ Save favorites
+  ✓ Send inquiries to owners
+  ✓ View sent inquiries
+
+╔═══════════════════════════════════════════════════════════════╗
+║                    🐛 TROUBLESHOOTING                         ║
+╚═══════════════════════════════════════════════════════════════╝
+
+PROBLEM: "Supabase credentials not configured"
+SOLUTION: 
+  - Check backend/.env has correct keys
+  - Remove quotes from keys
+  - Restart backend server
+
+PROBLEM: "Invalid API key"
+SOLUTION:
+  - Re-copy keys from Supabase Dashboard
+  - Make sure you copied the COMPLETE key
+  - Check for extra spaces or line breaks
+
+PROBLEM: "Row Level Security policy violation"
+SOLUTION:
+  - Re-run 002_rls_policies.sql
+  - Make sure user is logged in
+  - Check auth token is valid
+
+PROBLEM: Email not receiving
+SOLUTION:
+  - Check spam folder
+  - Verify Email provider is enabled
+  - Wait 2-3 minutes
+
+PROBLEM: Images not uploading
+SOLUTION:
+  - Run 003_storage.sql again
+  - Check file size < 5MB
+  - Verify bucket is PUBLIC
+
+╔═══════════════════════════════════════════════════════════════╗
+║                    📚 DETAILED GUIDE                          ║
+╚═══════════════════════════════════════════════════════════════╝
+
+For complete step-by-step instructions with screenshots:
+📄 Open: SUPABASE_SETUP.md
+
+For SQL scripts:
+📂 Location: d:\Rentify\backend\database\
+   - 001_schema.sql (tables)
+   - 002_rls_policies.sql (security)
+   - 003_storage.sql (image storage)
+
+╔═══════════════════════════════════════════════════════════════╗
+║                    ⚠️ SECURITY REMINDERS                      ║
+╚═══════════════════════════════════════════════════════════════╝
+
+1. ❌ NEVER share service_role key publicly
+2. ❌ NEVER commit service_role key to Git
+3. ✅ ONLY use anon key in frontend
+4. ✅ Keep backend/.env in .gitignore
+5. ✅ Use environment variables in production
+
+╔═══════════════════════════════════════════════════════════════╗
+║                    🎉 YOU'RE ALL SET!                         ║
+╚═══════════════════════════════════════════════════════════════╝
+
+Next Steps:
+1. Create owner account
+2. Add sample properties
+3. Test search/filters
+4. Send inquiries
+5. Explore dashboard
+
+Happy Building! 🚀
+
+Questions? Check SUPABASE_SETUP.md or visit:
+https://supabase.com/docs

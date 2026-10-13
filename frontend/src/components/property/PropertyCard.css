@@ -1,0 +1,237 @@
+/* ── Property Card ──────────────────────────────────────── */
+
+.property-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: all var(--duration-normal) var(--ease-out);
+  height: 100%;
+}
+
+.property-card:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-6px);
+  border-color: var(--color-navy-200);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .property-card:hover { transform: none; }
+}
+
+/* ── Image ───────────────────────────────────────────────── */
+.property-card__image-link {
+  display: block;
+  text-decoration: none;
+}
+
+.property-card__image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 64%;
+  background: var(--color-surface-alt);
+  overflow: hidden;
+}
+
+.property-card__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slower) var(--ease-out);
+}
+
+.property-card:hover .property-card__image {
+  transform: scale(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .property-card:hover .property-card__image { transform: none; }
+}
+
+.property-card__image-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  background: var(--color-surface-alt);
+}
+
+.property-card__badges {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* ── Favorite button ─────────────────────────────────────── */
+.property-card__fav {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.88);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+  backdrop-filter: blur(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.property-card__fav:hover {
+  color: var(--color-error);
+  background: rgb(255 255 255 / 1);
+  transform: scale(1.1);
+}
+
+.property-card__fav--active {
+  color: var(--color-error);
+  background: var(--color-error-bg);
+}
+
+/* ── Body ────────────────────────────────────────────────── */
+.property-card__body {
+  flex: 1;
+  padding: var(--space-4) var(--space-5) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.property-card__type {
+  color: var(--color-green-600);
+  font-size: var(--text-xs);
+  text-transform: capitalize;
+  font-weight: var(--font-medium);
+}
+
+.property-card__title {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+  margin: 0;
+}
+
+.property-card__title-link {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+
+  /* Clamp to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.property-card__title-link:hover { color: var(--color-navy-500); }
+
+.property-card__location {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.property-card__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+  list-style: none;
+  padding: 0;
+}
+
+.property-card__stat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.property-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-5) var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-background);
+  gap: var(--space-3);
+}
+
+.property-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.property-card__price-value {
+  font-size: var(--text-lg);
+  font-weight: var(--font-extrabold);
+  color: var(--color-navy-600);
+  letter-spacing: var(--tracking-tight);
+}
+
+.property-card__price-unit {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.property-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-green-600);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+.property-card__cta:hover {
+  color: var(--color-green-700);
+  gap: var(--space-2);
+}
+
+/* ============================================================
+   HOMEPAGE VISUAL OVERRIDES
+   Keeps the reusable PropertyCard functional while matching
+   Rentify's new warm premium landing-page aesthetic.
+   ============================================================ */
+.property-card {
+  border-color: #ebe7df;
+  border-radius: 16px;
+  box-shadow: 0 7px 22px rgba(32,30,24,.07);
+  background: #fff;
+}
+.property-card:hover { border-color: #e5c98e; box-shadow: 0 17px 34px rgba(32,30,24,.12); transform: translateY(-5px); }
+.property-card__image-wrapper { padding-top: 68%; background: #f1eee8; }
+.property-card__image { transition: transform .45s ease; }
+.property-card__badges { top: 11px; left: 11px; }
+.property-card__fav { top: 11px; right: 11px; width: 34px; height: 34px; color: #5d6068; border: 1px solid rgba(255,255,255,.7); }
+.property-card__body { padding: 16px 17px 12px; gap: 7px; }
+.property-card__type { color: #c27b07; letter-spacing: .08em; }
+.property-card__title { font-size: 16px; }
+.property-card__title-link:hover { color: #c27b07; }
+.property-card__location { font-size: 11px; }
+.property-card__stats { gap: 10px; }
+.property-card__stat { font-size: 11px; }
+.property-card__footer { padding: 12px 17px 15px; background: #fff; border-top-color: #f0ede7; }
+.property-card__price-value { color: #191d2d; font-size: 18px; }
+.property-card__cta { color: #c27b07; }
+.property-card__cta:hover { color: #9f6202; }

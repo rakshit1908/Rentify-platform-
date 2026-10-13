@@ -1,0 +1,660 @@
+/* =========================================================
+   RENTIFY — OWNER DASHBOARD
+   Professional dashboard layout
+   ========================================================= */
+
+.owner-db {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 30px 32px 56px;
+  box-sizing: border-box;
+  color: var(--color-primary-900, #14213d);
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+
+.owner-db__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.owner-db__eyebrow {
+  margin-bottom: 6px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.owner-db__title {
+  margin: 0;
+  color: #14213d;
+  font-size: clamp(28px, 3vw, 38px);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.owner-db__subtitle {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.owner-db__add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  background: #1f426f;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(31, 66, 111, 0.16);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.owner-db__add-btn:hover {
+  background: #17365e;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(31, 66, 111, 0.22);
+}
+
+.owner-db__add-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* ── Loader ──────────────────────────────────────────────── */
+
+.owner-db__loader {
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Stats ───────────────────────────────────────────────── */
+
+.owner-db__stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+/* ── Main layout ─────────────────────────────────────────── */
+
+.owner-db__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 22px;
+  align-items: start;
+}
+
+.owner-db__main {
+  min-width: 0;
+}
+
+/* ── Quick actions ───────────────────────────────────────── */
+
+.owner-db__quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+.owner-db__action-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 76px;
+  padding: 13px 14px;
+  border: 1px solid #e5eaf1;
+  border-radius: 14px;
+  background: #fff;
+  color: #14213d;
+  text-decoration: none;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.owner-db__action-card:hover {
+  transform: translateY(-2px);
+  border-color: #cbd8e8;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.owner-db__action-card--primary {
+  border-color: #d9e6f7;
+  background: linear-gradient(135deg, #f5f9ff, #eef5ff);
+}
+
+.owner-db__action-icon {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: #f2f6fb;
+  color: #1f426f;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.owner-db__action-card--primary
+  .owner-db__action-icon {
+  background: #1f426f;
+  color: #fff;
+}
+
+.owner-db__action-card strong {
+  display: block;
+  color: #172033;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.owner-db__action-card small {
+  display: block;
+  margin-top: 4px;
+  color: #7b8798;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.owner-db__action-arrow {
+  margin-left: auto;
+  color: #94a3b8;
+  font-size: 17px;
+}
+
+/* ── Sections ────────────────────────────────────────────── */
+
+.owner-db__section {
+  margin-bottom: 28px;
+}
+
+.owner-db__section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.owner-db__section-title {
+  margin: 0;
+  color: #172033;
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.owner-db__section-subtitle {
+  margin: 5px 0 0;
+  color: #8994a5;
+  font-size: 12px;
+}
+
+.owner-db__section-link {
+  flex-shrink: 0;
+  color: #1f62ad;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.owner-db__section-link:hover {
+  color: #164c8d;
+  text-decoration: underline;
+}
+
+/* ── Property grid ───────────────────────────────────────── */
+
+.owner-db__property-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+/* ── Inquiry grid ────────────────────────────────────────── */
+
+.owner-db__inquiry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+
+.owner-db__empty {
+  min-height: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  border: 1px dashed #d7dee8;
+  border-radius: 16px;
+  background: #fbfcfe;
+}
+
+/* ── Right sidebar ───────────────────────────────────────── */
+
+.owner-db__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 22px;
+}
+
+/* ── Profile card ────────────────────────────────────────── */
+
+.owner-db__profile-card {
+  padding: 19px;
+  border: 1px solid #e4e9f0;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 7px 22px rgba(15, 23, 42, 0.055);
+}
+
+.owner-db__profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.owner-db__profile-header h2 {
+  margin: 0;
+  color: #172033;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.owner-db__profile-edit {
+  color: #1f62ad;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.owner-db__profile-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.owner-db__avatar {
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1f426f, #4d77a7);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.owner-db__avatar img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.owner-db__profile-main h3 {
+  margin: 0 0 6px;
+  color: #172033;
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+.owner-db__role-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: #eaf2ff;
+  color: #1f426f;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.owner-db__profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 17px 0;
+}
+
+.owner-db__profile-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.owner-db__profile-row-icon {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #f5f7fa;
+  color: #607086;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.owner-db__profile-row > span:last-child {
+  min-width: 0;
+}
+
+.owner-db__profile-row small {
+  display: block;
+  margin-bottom: 3px;
+  color: #929baa;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.owner-db__profile-row strong {
+  display: block;
+  overflow: hidden;
+  color: #334155;
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.owner-db__profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  border: 1px solid #dbe3ed;
+  border-radius: 9px;
+  background: #fff;
+  color: #1f426f;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 750;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.owner-db__profile-btn:hover {
+  background: #f7faff;
+  border-color: #c6d5e7;
+}
+
+/* ── Overview side card ──────────────────────────────────── */
+
+.owner-db__side-card {
+  padding: 18px;
+  border: 1px solid #e4e9f0;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+}
+
+.owner-db__side-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  color: #172033;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.owner-db__side-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #fff5df;
+  color: #d78600;
+  font-size: 13px;
+}
+
+.owner-db__overview-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.owner-db__overview-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-top: 1px solid #eef1f5;
+}
+
+.owner-db__overview-list > div:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.owner-db__overview-list > div:last-child {
+  padding-bottom: 0;
+}
+
+.owner-db__overview-list span {
+  color: #7b8798;
+  font-size: 11px;
+}
+
+.owner-db__overview-list strong {
+  color: #172033;
+  font-size: 14px;
+}
+
+/* ── Help card ───────────────────────────────────────────── */
+
+.owner-db__help-card {
+  padding: 18px;
+  border: 1px solid #dcefe6;
+  border-radius: 18px;
+  background: linear-gradient(
+    145deg,
+    #f0fff8,
+    #e8f8f0
+  );
+}
+
+.owner-db__help-icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: #d6f4e4;
+  color: #17824e;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.owner-db__help-card h3 {
+  margin: 0;
+  color: #174d36;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.owner-db__help-card p {
+  margin: 6px 0 13px;
+  color: #5f7d6d;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.owner-db__help-link {
+  color: #16804d;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.owner-db__help-link:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 1200px) {
+  .owner-db__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .owner-db__layout {
+    grid-template-columns: minmax(0, 1fr) 270px;
+  }
+
+  .owner-db__property-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 980px) {
+  .owner-db {
+    padding: 26px 22px 48px;
+  }
+
+  .owner-db__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .owner-db__sidebar {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .owner-db__profile-card {
+    grid-row: span 2;
+  }
+}
+
+@media (max-width: 760px) {
+  .owner-db {
+    padding: 22px 16px 40px;
+  }
+
+  .owner-db__header {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 22px;
+  }
+
+  .owner-db__add-btn {
+    width: 100%;
+  }
+
+  .owner-db__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .owner-db__quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .owner-db__property-grid,
+  .owner-db__inquiry-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .owner-db__sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .owner-db__profile-card {
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .owner-db {
+    padding: 18px 12px 32px;
+  }
+
+  .owner-db__title {
+    font-size: 27px;
+  }
+
+  .owner-db__subtitle {
+    font-size: 12px;
+  }
+
+  .owner-db__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .owner-db__section-header {
+    align-items: flex-start;
+  }
+
+  .owner-db__section-title {
+    font-size: 18px;
+  }
+
+  .owner-db__section-link {
+    font-size: 11px;
+  }
+
+  .owner-db__profile-card,
+  .owner-db__side-card,
+  .owner-db__help-card {
+    padding: 15px;
+  }
+}

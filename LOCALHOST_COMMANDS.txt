@@ -1,0 +1,241 @@
+╔═══════════════════════════════════════════════════════════════╗
+║           🚀 RENTIFY - LOCALHOST COMMANDS                     ║
+║              (Copy-Paste Ready Commands)                      ║
+╚═══════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 STEP 1: BACKEND SERVER START KARO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Terminal 1 mein yeh commands type karo:
+
+cd d:\Rentify\backend
+node server.js
+
+✅ Success Message:
+  ╔══════════════════════════════════════╗
+  ║        Rentify API — Running         ║
+  ║  Port    : 5000                       ║
+  ╚══════════════════════════════════════╝
+
+⚠️  Terminal ko CLOSE MAT KARO! Background mein running rehne do.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 STEP 2: FRONTEND SERVER START KARO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NAYA Terminal kholo (Ctrl+Shift+`) aur yeh type karo:
+
+cd d:\Rentify\frontend
+npm run dev
+
+✅ Success Message:
+  VITE v8.2.1  ready in 2204 ms
+  ➜  Local:   http://localhost:5173/
+
+⚠️  Yeh terminal bhi running rehne do!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 STEP 3: BROWSER MEIN KHOLO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Browser address bar mein type karo:
+
+http://localhost:5173/
+
+Ya sirf:
+
+localhost:5173
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🛑 SERVERS BAND KARNA (STOP)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dono terminals mein:
+
+Ctrl + C
+
+Ya terminal windows close kar do.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 RESTART KARNA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Agar kuch problem aaye to sab band karke phir se start karo:
+
+1. Dono terminals mein Ctrl+C press karo
+2. Backend phir se start:
+   cd d:\Rentify\backend
+   node server.js
+
+3. Frontend phir se start (new terminal):
+   cd d:\Rentify\frontend
+   npm run dev
+
+4. Browser refresh: Ctrl+Shift+R
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🐛 COMMON ERRORS & SOLUTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ERROR 1: "Port 5173 is already in use"
+─────────────────────────────────────────
+Pehle wala server band karo:
+
+netstat -ano | findstr "5173"
+taskkill /PID <process_id> /F
+
+Phir se npm run dev karo.
+
+
+ERROR 2: "node is not recognized"
+─────────────────────────────────────────
+Node.js install nahi hai.
+
+Download: https://nodejs.org/
+Install karo, phir terminal restart karo.
+
+
+ERROR 3: "Cannot find module"
+─────────────────────────────────────────
+Dependencies install nahi hui:
+
+cd d:\Rentify\frontend
+npm install
+
+cd d:\Rentify\backend
+npm install
+
+
+ERROR 4: White/Blank page in browser
+─────────────────────────────────────────
+Hard refresh karo:
+
+Ctrl + Shift + R
+
+Ya cache clear:
+
+Ctrl + Shift + Delete
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ VERIFICATION COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Check backend:
+curl http://localhost:5000/api/health
+
+Check frontend:
+curl http://localhost:5173/
+
+Check ports:
+netstat -ano | findstr "LISTENING"
+
+Check Node.js:
+node --version
+
+Check npm:
+npm --version
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 USEFUL COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Open VS Code:
+cd d:\Rentify
+code .
+
+Kill all Node processes:
+taskkill /IM node.exe /F
+
+Fresh install dependencies:
+cd frontend
+Remove-Item -Recurse node_modules
+npm install
+
+Check current directory:
+pwd
+
+List files:
+Get-ChildItem
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 QUICK START (ONE-LINER)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PowerShell mein ek saath dono start karne ke liye:
+
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd d:\Rentify\backend; node server.js"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd d:\Rentify\frontend; npm run dev"
+
+Yeh command run karne se 2 PowerShell windows khulenge automatically!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📱 MOBILE/TABLET SE ACCESS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Same WiFi network pe ho to:
+
+cd d:\Rentify\frontend
+npm run dev -- --host
+
+Output mein "Network" URL dikhega:
+Network: http://192.168.x.x:5173/
+
+Yeh URL mobile browser mein kholo.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔗 IMPORTANT URLs
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Frontend:       http://localhost:5173/
+Backend API:    http://localhost:5000/
+Backend Health: http://localhost:5000/api/health
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💡 PRO TIPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Ctrl+` - VS Code mein terminal toggle
+2. Ctrl+Shift+` - Naya terminal kholo
+3. Ctrl+C - Server stop karo
+4. Ctrl+L - Terminal clear karo
+5. Up Arrow - Last command repeat karo
+6. Tab - Autocomplete (folder/file names)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ DAILY WORKFLOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MORNING (Start):
+┌─────────────────────────────────────┐
+│ 1. VS Code kholo                   │
+│ 2. Terminal 1: backend start       │
+│ 3. Terminal 2: frontend start      │
+│ 4. Browser: localhost:5173         │
+└─────────────────────────────────────┘
+
+CODING:
+┌─────────────────────────────────────┐
+│ • Code likhte raho                 │
+│ • Browser auto-refresh hoga        │
+│ • Errors terminal mein dikhenge    │
+└─────────────────────────────────────┘
+
+EVENING (Stop):
+┌─────────────────────────────────────┐
+│ • Both terminals: Ctrl+C           │
+│ • Save all files                   │
+│ • Close VS Code                    │
+└─────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 DETAILED GUIDE: HOW_TO_RUN_LOCALHOST.md
+📄 SUPABASE SETUP: SUPABASE_SETUP.md
+📄 QUICK SUPABASE: QUICK_SUPABASE_SETUP.txt
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 AB TUM KHUD LOCALHOST RUN KAR SAKTE HO! 🎉
+
+Questions? Check HOW_TO_RUN_LOCALHOST.md for detailed help!

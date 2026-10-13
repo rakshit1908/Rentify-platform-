@@ -1,0 +1,193 @@
+/* ============================================================
+   RENTIFY — CSS DESIGN SYSTEM
+   Variables, tokens, and global design decisions
+   ============================================================ */
+
+:root {
+  /* ── Colour Palette ─────────────────────────────────────── */
+  /* Premium real-estate color system:
+     Deep Navy + Elegant Green + Warm Neutral + Off-white + Charcoal */
+
+  /* Primary — Deep Navy */
+  --color-navy-50:  #f0f4f9;
+  --color-navy-100: #dce5f1;
+  --color-navy-200: #b8cbe3;
+  --color-navy-300: #8ca7cf;
+  --color-navy-400: #5d7fb5;
+  --color-navy-500: #1e3a5f;   /* brand primary - deep navy */
+  --color-navy-600: #182f4f;
+  --color-navy-700: #13253f;
+  --color-navy-800: #0e1b2f;
+  --color-navy-900: #0a1220;
+
+  /* Secondary — Elegant Green */
+  --color-green-50:  #f0f9f4;
+  --color-green-100: #d9f0e3;
+  --color-green-200: #b3e1c7;
+  --color-green-300: #7ec99f;
+  --color-green-400: #4db07a;
+  --color-green-500: #2d7a4f;  /* brand secondary - elegant green */
+  --color-green-600: #256240;
+  --color-green-700: #1d4a32;
+  --color-green-800: #153323;
+  --color-green-900: #0d1f16;
+
+  /* Accent — Warm Amber (touches) */
+  --color-amber-50:  #fef8f0;
+  --color-amber-100: #fcefd9;
+  --color-amber-200: #f9ddb3;
+  --color-amber-300: #f5c77d;
+  --color-amber-400: #f1b24c;
+  --color-amber-500: #d97706;   /* warm accent */
+  --color-amber-600: #b35f05;
+  --color-amber-700: #8d4804;
+
+  /* Neutrals — Warm + Off-white */
+  --color-white:       #ffffff;
+  --color-off-white:   #fafaf8;   /* off-white */
+  --color-background:  #f8f7f4;   /* warm neutral background */
+  --color-surface:     #ffffff;
+  --color-surface-alt: #f3f2ee;   /* warm neutral surface */
+  --color-gray-50:     #f9f9f8;
+  --color-gray-100:    #f3f3f1;
+  --color-gray-200:    #e6e5e1;
+  --color-gray-300:    #d1cfc8;
+  --color-gray-400:    #aeaca3;
+  --color-gray-500:    #8a877e;
+  --color-gray-600:    #6a6760;
+
+  /* Text — Charcoal */
+  --color-charcoal:    #2c2d30;   /* charcoal for primary text */
+  --color-text:        #2c2d30;   
+  --color-text-muted:  #6a6760;
+  --color-text-light:  #8a877e;
+  --color-text-inverse:#ffffff;
+
+  /* Border */
+  --color-border:      #e6e5e1;
+  --color-border-light:#f3f3f1;
+  --color-border-focus:#1e3a5f;
+
+  /* Semantic */
+  --color-success:     #2d7a4f;
+  --color-success-bg:  #f0f9f4;
+  --color-warning:     #d97706;
+  --color-warning-bg:  #fef8f0;
+  --color-error:       #dc2626;
+  --color-error-bg:    #fef2f2;
+  --color-info:        #1e3a5f;
+  --color-info-bg:     #f0f4f9;
+
+  /* ── Semantic Aliases ───────────────────────────────────── */
+  --primary:    var(--color-navy-500);
+  --secondary:  var(--color-green-500);
+  --accent:     var(--color-amber-500);
+  --background: var(--color-background);
+  --surface:    var(--color-surface);
+  --text:       var(--color-text);
+  --muted:      var(--color-text-muted);
+  --border:     var(--color-border);
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --font-sans:   'Plus Jakarta Sans', 'Inter', 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-mono:   'JetBrains Mono', 'Fira Code', 'Menlo', monospace;
+
+  --text-xs:    0.75rem;    /* 12px */
+  --text-sm:    0.875rem;   /* 14px */
+  --text-base:  1rem;       /* 16px */
+  --text-md:    1.125rem;   /* 18px */
+  --text-lg:    1.25rem;    /* 20px */
+  --text-xl:    1.5rem;     /* 24px */
+  --text-2xl:   1.875rem;   /* 30px */
+  --text-3xl:   2.25rem;    /* 36px */
+  --text-4xl:   3rem;       /* 48px */
+  --text-5xl:   3.75rem;    /* 60px */
+
+  --font-regular:   400;
+  --font-medium:    500;
+  --font-semibold:  600;
+  --font-bold:      700;
+  --font-extrabold: 800;
+
+  --leading-tight:  1.25;
+  --leading-snug:   1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed:1.625;
+  --leading-loose:  2;
+
+  --tracking-tight:  -0.025em;
+  --tracking-normal:  0em;
+  --tracking-wide:    0.025em;
+  --tracking-wider:   0.05em;
+
+  /* ── Spacing ────────────────────────────────────────────── */
+  --space-1:   0.25rem;   /*  4px */
+  --space-2:   0.5rem;    /*  8px */
+  --space-3:   0.75rem;   /* 12px */
+  --space-4:   1rem;      /* 16px */
+  --space-5:   1.25rem;   /* 20px */
+  --space-6:   1.5rem;    /* 24px */
+  --space-8:   2rem;      /* 32px */
+  --space-10:  2.5rem;    /* 40px */
+  --space-12:  3rem;      /* 48px */
+  --space-16:  4rem;      /* 64px */
+  --space-20:  5rem;      /* 80px */
+  --space-24:  6rem;      /* 96px */
+  --space-32:  8rem;      /* 128px */
+
+  /* ── Border Radius ──────────────────────────────────────── */
+  --radius-sm:   0.25rem;   /*  4px */
+  --radius-md:   0.5rem;    /*  8px */
+  --radius-lg:   0.75rem;   /* 12px */
+  --radius-xl:   1rem;      /* 16px */
+  --radius-2xl:  1.5rem;    /* 24px */
+  --radius-full: 9999px;
+
+  /* ── Shadows ────────────────────────────────────────────── */
+  --shadow-xs:  0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm:  0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.18);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.06);
+
+  /* ── Transitions & Animations ───────────────────────────── */
+  --transition-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base:   200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:   300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slower: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  --ease-in:      cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:     cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:  cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Animation durations */
+  --duration-instant: 100ms;
+  --duration-fast:    150ms;
+  --duration-normal:  200ms;
+  --duration-slow:    300ms;
+  --duration-slower:  400ms;
+  --duration-slowest: 600ms;
+
+  /* ── Z-Index ────────────────────────────────────────────── */
+  --z-below:   -1;
+  --z-base:     0;
+  --z-raised:   10;
+  --z-dropdown: 100;
+  --z-sticky:   200;
+  --z-overlay:  300;
+  --z-modal:    400;
+  --z-toast:    500;
+  --z-tooltip:  600;
+
+  /* ── Layout ─────────────────────────────────────────────── */
+  --container-sm:  640px;
+  --container-md:  768px;
+  --container-lg:  1024px;
+  --container-xl:  1280px;
+  --container-2xl: 1440px;
+
+  --navbar-height: 72px;
+}
