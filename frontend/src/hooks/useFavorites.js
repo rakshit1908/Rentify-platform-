@@ -34,7 +34,8 @@ export const useFavoritesState = () => {
     // Optimistic update
     setIds((prev) => {
       const next = new Set(prev);
-      wasFav ? next.delete(propertyId) : next.add(propertyId);
+      if (wasFav) next.delete(propertyId);
+      else next.add(propertyId);
       return next;
     });
     try {
@@ -44,11 +45,21 @@ export const useFavoritesState = () => {
       // Revert on error
       setIds((prev) => {
         const next = new Set(prev);
-        wasFav ? next.add(propertyId) : next.delete(propertyId);
+        if (wasFav) next.add(propertyId);
+        else next.delete(propertyId);
         return next;
       });
     }
   }, [ids]);
 
-  return { ids, loading, toggle };
+  const remove = useCallback(async (propertyId) => {
+    await removeFavorite(propertyId);
+    setIds((previous) => {
+      const next = new Set(previous);
+      next.delete(propertyId);
+      return next;
+    });
+  }, []);
+
+  return { ids, loading, toggle, remove };
 };

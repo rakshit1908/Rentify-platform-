@@ -73,10 +73,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async ({ email, password }) => {
+  const login = async ({ email, password, role }) => {
     setError(null);
     try {
       const res = await api.post('/auth/login', { email, password });
+      if (role && res.data?.user?.role !== role) {
+        const accountRole = res.data?.user?.role === 'owner' ? 'owner' : 'renter';
+        const msg = `This account is registered as a ${accountRole}. Choose “Login as ${accountRole}” to continue.`;
+        setError(msg);
+        return { success: false, message: msg };
+      }
+
       // Sync Supabase client with the session from backend
       await supabase.auth.setSession({
         access_token:  res.data.session.access_token,

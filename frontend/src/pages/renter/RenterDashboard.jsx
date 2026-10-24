@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import StatisticCard from '../../components/dashboard/StatisticCard';
 import InquiryCard from '../../components/dashboard/InquiryCard';
 import Loader from '../../components/common/Loader';
 import EmptyState from '../../components/common/EmptyState';
+import ErrorState from '../../components/common/ErrorState';
 import { useAuth } from '../../context/AuthContext';
+import RenterWorkspaceHeader from './RenterWorkspaceHeader';
 
 import { fetchFavorites } from '../../services/favorites.service';
 import { fetchMyInquiries } from '../../services/inquiries.service';
 
+import './RenterPages.css';
 import './RenterDashboard.css';
 
 const NAV_ITEMS = [
@@ -64,46 +67,47 @@ const NAV_ITEMS = [
       </svg>
     ),
   },
+  { to: '/renter/profile', label: 'My Profile' },
 ];
 
 const RenterDashboard = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const [favorites, setFavorites] = useState([]);
   const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  const loadDashboard = useCallback(async () => {
+    setLoading(true);
+    setLoadError('');
+    try {
+      const [fRes, iRes] = await Promise.all([
+        fetchFavorites(),
+        fetchMyInquiries(),
+      ]);
+
+      setFavorites(fRes?.data?.favorites || []);
+      setInquiries(iRes?.data?.inquiries || []);
+    } catch (error) {
+      console.error('[RenterDashboard] Failed to load dashboard:', error);
+      setLoadError(error.message || 'Unable to load your dashboard. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    let mounted = true;
-
-    const loadDashboard = async () => {
-      try {
-        const [fRes, iRes] = await Promise.all([
-          fetchFavorites(),
-          fetchMyInquiries(),
-        ]);
-
-        if (!mounted) return;
-
-        setFavorites(fRes?.data?.favorites || []);
-        setInquiries(iRes?.data?.inquiries || []);
-      } catch (error) {
-        console.error(
-          '[RenterDashboard] Failed to load dashboard:',
-          error
-        );
-      } finally {
-        if (mounted) {
-          setLoading(false);
-        }
-      }
-    };
-
     loadDashboard();
+  }, [loadDashboard]);
 
-    return () => {
-      mounted = false;
-    };
+  useEffect(() => {
+    const updateScrollButton = () => setShowScrollTop(window.scrollY > 360);
+    updateScrollButton();
+    window.addEventListener('scroll', updateScrollButton, { passive: true });
+    return () => window.removeEventListener('scroll', updateScrollButton);
   }, []);
 
   const pending = inquiries.filter(
@@ -131,35 +135,27 @@ const RenterDashboard = () => {
   return (
     <DashboardLayout navItems={NAV_ITEMS} role="renter">
       <div className="renter-db">
-        {/* ── Header ─────────────────────────────────── */}
-        <header className="renter-db__header">
-          <div>
-            <div className="renter-db__eyebrow">
-              Renter workspace
-            </div>
-
-            <h1 className="renter-db__title">
-              My Dashboard
-            </h1>
-
-            <p className="renter-db__subtitle">
-              Find your next home, manage saved properties and
-              track your inquiries.
-            </p>
-          </div>
-
-          <Link
-            to="/properties"
-            className="renter-db__explore-btn"
-          >
-            <span className="renter-db__explore-icon">⌕</span>
-            Explore homes
-          </Link>
-        </header>
+        <RenterWorkspaceHeader
+          eyebrow="Your renter workspace"
+          title="Welcome back,"
+          highlight={`${renterName}!`}
+          subtitle="Find your next home, keep track of saved properties and stay on top of owner replies."
+          actionTo="/properties"
+          actionLabel="Explore homes"
+        />
 
         {loading ? (
           <div className="renter-db__loader">
             <Loader size="md" />
+          </div>
+        ) : loadError ? (
+          <div className="renter-db__load-error">
+            <ErrorState
+              type="inline"
+              title="Your dashboard could not be loaded"
+              description={loadError}
+              onRetry={loadDashboard}
+            />
           </div>
         ) : (
           <>
@@ -266,7 +262,7 @@ const RenterDashboard = () => {
 
             {/* ── Main layout ─────────────────────────── */}
             <div className="renter-db__layout">
-              <main className="renter-db__main">
+              <div className="renter-db__main">
                 {/* Quick actions */}
                 <div className="renter-db__quick-actions">
                   <Link
@@ -388,7 +384,7 @@ const RenterDashboard = () => {
                         description="Browse properties and contact owners to get started."
                         action={{
                           label: 'Browse Properties',
-                          onClick: () => {},
+                          onClick: () => navigate('/properties'),
                         }}
                       />
                     </div>
@@ -476,7 +472,7 @@ const RenterDashboard = () => {
                     </div>
                   )}
                 </section>
-              </main>
+              </div>
 
               {/* ── Profile sidebar ──────────────────── */}
               <aside className="renter-db__sidebar">
@@ -605,6 +601,19 @@ const RenterDashboard = () => {
           </>
         )}
       </div>
+      {showScrollTop && (
+        <button
+          type="button"
+          className="renter-db__scroll-top"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Scroll to top"
+          title="Back to top"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m6 14 6-6 6 6" />
+          </svg>
+        </button>
+      )}
     </DashboardLayout>
   );
 };

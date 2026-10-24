@@ -58,8 +58,8 @@ const Navbar = () => {
         <Link to="/" className="navbar__logo" aria-label="Rentify home">
           <span className="navbar__logo-icon" aria-hidden="true">
             <svg viewBox="0 0 32 32" fill="none">
-              <path d="M4 14.2 16 4l12 10.2v13.2a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 27.4V14.2Z" fill="#F0A51C"/>
-              <path d="m2.8 14.5 13.2-11 13.2 11" stroke="#D4870D" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M4 14.2 16 4l12 10.2v13.2a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 27.4V14.2Z" fill="#3478F6"/>
+              <path d="m2.8 14.5 13.2-11 13.2 11" stroke="#2453A6" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M11.5 28V17.5h9V28M14.5 11.5h3" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </span>

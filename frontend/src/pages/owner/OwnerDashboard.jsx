@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import StatisticCard from '../../components/dashboard/StatisticCard';
@@ -7,6 +7,7 @@ import InquiryCard from '../../components/dashboard/InquiryCard';
 import PropertyCard from '../../components/property/PropertyCard';
 import Loader from '../../components/common/Loader';
 import EmptyState from '../../components/common/EmptyState';
+import ErrorState from '../../components/common/ErrorState';
 import { useAuth } from '../../context/AuthContext';
 
 import { fetchMyProperties } from '../../services/property.service';
@@ -124,45 +125,46 @@ const NAV_ITEMS = [
 
 const OwnerDashboard = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
+  const [dashboardSearch, setDashboardSearch] = useState('');
   const [properties, setProperties] = useState([]);
   const [inquiries, setInquiries] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  const loadDashboard = useCallback(async () => {
+    setLoading(true);
+    setLoadError('');
+    try {
+      const [pRes, iRes, sRes] = await Promise.all([
+        fetchMyProperties(),
+        fetchOwnerInquiries({ limit: 5 }),
+        fetchInquiryStats(),
+      ]);
+
+      setProperties(pRes?.data?.properties || []);
+      setInquiries(iRes?.data?.inquiries || []);
+      setStats(sRes?.data || {});
+    } catch (error) {
+      console.error('[OwnerDashboard] Failed to load dashboard:', error);
+      setLoadError(error.message || 'Unable to load your dashboard. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    let mounted = true;
-
-    const loadDashboard = async () => {
-      try {
-        const [pRes, iRes, sRes] = await Promise.all([
-          fetchMyProperties(),
-          fetchOwnerInquiries({ limit: 5 }),
-          fetchInquiryStats(),
-        ]);
-
-        if (!mounted) return;
-
-        setProperties(pRes?.data?.properties || []);
-        setInquiries(iRes?.data?.inquiries || []);
-        setStats(sRes?.data || {});
-      } catch (error) {
-        console.error(
-          '[OwnerDashboard] Failed to load dashboard:',
-          error
-        );
-      } finally {
-        if (mounted) {
-          setLoading(false);
-        }
-      }
-    };
-
     loadDashboard();
+  }, [loadDashboard]);
 
-    return () => {
-      mounted = false;
-    };
+  useEffect(() => {
+    const updateScrollButton = () => setShowScrollTop(window.scrollY > 360);
+    updateScrollButton();
+    window.addEventListener('scroll', updateScrollButton, { passive: true });
+    return () => window.removeEventListener('scroll', updateScrollButton);
   }, []);
 
   const propStats = {
@@ -176,13 +178,21 @@ const OwnerDashboard = () => {
   };
 
   const handleStatusChange = (id, newStatus) => {
-    setInquiries((previous) =>
-      previous.map((inquiry) =>
-        inquiry.id === id
-          ? { ...inquiry, status: newStatus }
-          : inquiry
-      )
-    );
+    const previousStatus = inquiries.find((inquiry) => inquiry.id === id)?.status;
+    setInquiries((previous) => previous.map((inquiry) => (
+      inquiry.id === id ? { ...inquiry, status: newStatus } : inquiry
+    )));
+    if (previousStatus && stats) {
+      setStats((previous) => ({
+        ...previous,
+        pending: Math.max(
+          0,
+          (previous?.pending || 0)
+          - (previousStatus === 'pending' ? 1 : 0)
+          + (newStatus === 'pending' ? 1 : 0)
+        ),
+      }));
+    }
   };
 
   const ownerName =
@@ -200,10 +210,77 @@ const OwnerDashboard = () => {
     .map((part) => part.charAt(0).toUpperCase())
     .join('');
 
+  const handlePropertySearch = (event) => {
+    event.preventDefault();
+    const query = dashboardSearch.trim();
+    if (query) {
+      navigate(`/properties?search=${encodeURIComponent(query)}`);
+    } else {
+      navigate('/properties');
+    }
+  };
+
   return (
     <DashboardLayout navItems={NAV_ITEMS} role="owner">
       <div className="owner-db">
-        {/* ── Top Header ─────────────────────────────── */}
+        <div className="owner-db__toolbar">
+          <Link to="/" className="owner-db__brand" aria-label="Rentify home">
+            <span className="owner-db__brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 28 28" fill="none">
+                <path d="M3 12 14 3l11 9v12H3V12Z" fill="currentColor" />
+                <path d="M11 24v-8h6v8" stroke="white" strokeWidth="2" />
+              </svg>
+            </span>
+            <span>
+              <strong>Rentify</strong>
+              <small>Find Your Perfect Home</small>
+            </span>
+          </Link>
+
+          <form className="owner-db__search" onSubmit={handlePropertySearch}>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <circle cx="8.8" cy="8.8" r="5.8" stroke="currentColor" strokeWidth="1.6" />
+              <path d="m13.2 13.2 4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+            <input
+              type="search"
+              value={dashboardSearch}
+              onChange={(event) => setDashboardSearch(event.target.value)}
+              placeholder="Search properties, locations, or inquiries..."
+              aria-label="Search properties"
+            />
+            <button type="submit" aria-label="Submit property search">
+              Search
+            </button>
+          </form>
+
+          <div className="owner-db__toolbar-actions">
+            <Link
+              to="/owner/inquiries"
+              className="owner-db__toolbar-icon"
+              aria-label={`View inquiries${stats?.pending ? `, ${stats.pending} pending` : ''}`}
+            >
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M3 4h14v10H9l-4 3v-3H3V4Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+              </svg>
+              {stats?.pending > 0 && (
+                <span className="owner-db__notification-count">{stats.pending}</span>
+              )}
+            </Link>
+            <span className="owner-db__toolbar-avatar" aria-hidden="true">
+              {user?.avatar_url ? (
+                <img src={user.avatar_url} alt="" />
+              ) : (
+                initials || 'O'
+              )}
+            </span>
+            <span className="owner-db__toolbar-user">
+              <strong>{ownerName}</strong>
+              <small>Owner Account</small>
+            </span>
+          </div>
+        </div>
+
         <header className="owner-db__header">
           <div>
             <div className="owner-db__eyebrow">
@@ -211,12 +288,13 @@ const OwnerDashboard = () => {
             </div>
 
             <h1 className="owner-db__title">
-              Dashboard
+              Welcome back,<br />
+              <span>{ownerName}!</span>
             </h1>
 
             <p className="owner-db__subtitle">
-              Manage your properties, inquiries and rental activity
-              from one place.
+              Manage your properties, track inquiries and grow your rental
+              business all in one place.
             </p>
           </div>
 
@@ -224,14 +302,23 @@ const OwnerDashboard = () => {
             to="/owner/properties/new"
             className="owner-db__add-btn"
           >
-            <span className="owner-db__add-icon">+</span>
-            Add property
+            <span className="owner-db__add-icon" aria-hidden="true">+</span>
+            Add New Property
           </Link>
         </header>
 
         {loading ? (
           <div className="owner-db__loader">
             <Loader size="md" />
+          </div>
+        ) : loadError ? (
+          <div className="owner-db__load-error">
+            <ErrorState
+              type="inline"
+              title="Your dashboard could not be loaded"
+              description={loadError}
+              onRetry={loadDashboard}
+            />
           </div>
         ) : (
           <>
@@ -298,12 +385,7 @@ const OwnerDashboard = () => {
                     viewBox="0 0 20 20"
                     fill="none"
                   >
-                    <path
-                      d="M10 2a6 6 0 100 12A6 6 0 0010 2zM4 18a8 8 0 0112 0"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
+                    <path d="M10 2a6 6 0 100 12 6 6 0 000-12ZM4 18a8 8 0 0112 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 }
               />
@@ -311,27 +393,6 @@ const OwnerDashboard = () => {
               <StatisticCard
                 value={stats?.total || 0}
                 label="Total Inquiries"
-                color="default"
-                icon={
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                  >
-                    <path
-                      d="M17 3H3a1 1 0 00-1 1v9a1 1 0 001 1h4l3 3 3-3h4a1 1 0 001-1V4a1 1 0 00-1-1z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                }
-              />
-
-              <StatisticCard
-                value={stats?.pending || 0}
-                label="Pending Inquiries"
                 color="red"
                 icon={
                   <svg
@@ -340,19 +401,7 @@ const OwnerDashboard = () => {
                     viewBox="0 0 20 20"
                     fill="none"
                   >
-                    <circle
-                      cx="10"
-                      cy="10"
-                      r="8"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M10 6v4l3 2"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
+                    <path d="M17 3H3a1 1 0 00-1 1v9a1 1 0 001 1h4l3 3 3-3h4a1 1 0 001-1V4a1 1 0 00-1-1Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
                   </svg>
                 }
               />
@@ -475,13 +524,13 @@ const OwnerDashboard = () => {
                         description="Add your first property and start reaching renters."
                         action={{
                           label: '+ Add your first property',
-                          onClick: () => {},
+                          onClick: () => navigate('/owner/properties/new'),
                         }}
                       />
                     </div>
                   ) : (
                     <div className="owner-db__property-grid">
-                      {properties.slice(0, 3).map((property) => (
+                      {properties.slice(0, 4).map((property) => (
                         <PropertyCard
                           key={property.id}
                           property={property}
@@ -540,9 +589,7 @@ const OwnerDashboard = () => {
                   <div className="owner-db__profile-header">
                     <h2>My Profile</h2>
 
-                    <span className="owner-db__profile-edit">
-                      Profile
-                    </span>
+                    <span className="owner-db__profile-edit">Owner account</span>
                   </div>
 
                   <div className="owner-db__profile-main">
@@ -602,10 +649,10 @@ const OwnerDashboard = () => {
                   </div>
 
                   <Link
-                    to="/dashboard/owner"
+                    to="/owner/properties"
                     className="owner-db__profile-btn"
                   >
-                    View account
+                    Manage properties
                   </Link>
                 </section>
 
@@ -661,6 +708,19 @@ const OwnerDashboard = () => {
           </>
         )}
       </div>
+      {showScrollTop && (
+        <button
+          type="button"
+          className="owner-db__scroll-top"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Scroll to top"
+          title="Back to top"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m6 14 6-6 6 6" />
+          </svg>
+        </button>
+      )}
     </DashboardLayout>
   );
 };

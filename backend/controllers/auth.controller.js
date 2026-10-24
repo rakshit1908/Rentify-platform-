@@ -53,22 +53,49 @@ const register = async (req, res) => {
 
     const userId = data.user.id;
 
-    // Upsert profile in case trigger hasn't fired yet
-    const { data: profile, error: profileErr } = await supabaseAdmin
+    // The auth trigger normally creates the profile; only insert if it did not.
+    let { data: profile, error: profileErr } = await supabaseAdmin
       .from('profiles')
-      .upsert({
-        id:        userId,
-        full_name: full_name.trim(),
-        email:     email.toLowerCase().trim(),
-        phone:     phone?.trim() || null,
-        role,
-      }, { onConflict: 'id' })
       .select()
-      .single();
+      .eq('id', userId)
+      .maybeSingle();
+
+    if (!profileErr && !profile) {
+      const result = await supabaseAdmin
+        .from('profiles')
+        .insert({
+          id:        userId,
+          full_name: full_name.trim(),
+          email:     email.toLowerCase().trim(),
+          phone:     phone?.trim() || null,
+          role,
+        })
+        .select()
+        .single();
+
+      profile = result.data;
+      profileErr = result.error;
+    }
 
     if (profileErr) {
-      console.error('[register] profile upsert error:', profileErr.message);
-      return sendError(res, 500, 'Account created but profile setup failed. Please contact support.');
+      console.error('[register] profile setup error:', {
+        code: profileErr.code,
+        message: profileErr.message,
+        details: profileErr.details,
+        hint: profileErr.hint,
+      });
+
+      const { error: cleanupErr } = await supabaseAdmin.auth.admin.deleteUser(userId);
+      if (cleanupErr) {
+        console.error('[register] auth user cleanup error:', cleanupErr.message);
+        return sendError(
+          res,
+          500,
+          'Your account was created, but profile setup failed. Please contact support before trying again.'
+        );
+      }
+
+      return sendError(res, 500, 'We could not finish setting up your account. Please try again.');
     }
 
     // Sign the user in to get a session token

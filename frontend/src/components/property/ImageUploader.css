@@ -179,3 +179,7 @@
   border-radius: var(--radius-lg);
   margin: 0;
 }
+
+@media (hover: none) {
+  .iup-thumb__actions { opacity: 1; }
+}

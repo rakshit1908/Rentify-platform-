@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchProperties } from '../../services/property.service';
 import PropertyCard from '../../components/property/PropertyCard';
-import heroImage from '../../assets/rentify-house.png';
+import heroImage from '../../assets/rentify_luxury_home_4x_large(1).png';
+import demoPropertyImage from '../../assets/rentify-house.png';
 import './HomePage.css';
 
 // ============================================================
@@ -25,7 +26,7 @@ const DEMO_PROPERTIES = [
     bathrooms: 2,
     area: 1200,
     status: 'available',
-    property_images: [{ image_url: HERO_IMAGE, is_primary: true }],
+    property_images: [{ image_url: demoPropertyImage, is_primary: true }],
   },
   {
     id: 'demo-2',
@@ -38,7 +39,7 @@ const DEMO_PROPERTIES = [
     bathrooms: 3,
     area: 1650,
     status: 'available',
-    property_images: [{ image_url: HERO_IMAGE, is_primary: true }],
+    property_images: [{ image_url: demoPropertyImage, is_primary: true }],
   },
   {
     id: 'demo-3',
@@ -51,7 +52,7 @@ const DEMO_PROPERTIES = [
     bathrooms: 1,
     area: 800,
     status: 'available',
-    property_images: [{ image_url: HERO_IMAGE, is_primary: true }],
+    property_images: [{ image_url: demoPropertyImage, is_primary: true }],
   },
 ];
 
@@ -65,6 +66,7 @@ const HomePage = () => {
     minRent: '',
     maxRent: '',
   });
+  const [searchMode, setSearchMode] = useState('home');
 
   // ============================================================
   // FEATURED PROPERTIES
@@ -105,6 +107,14 @@ const HomePage = () => {
     navigate(searchQuery);
   };
 
+  const selectSearchMode = (mode) => {
+    setSearchMode(mode);
+    setHeroSearch((current) => ({
+      ...current,
+      propertyType: mode === 'room' ? 'room' : current.propertyType === 'room' ? '' : current.propertyType,
+    }));
+  };
+
   return (
     <div className="rentify-home">
       {/* ========================================================
@@ -113,97 +123,137 @@ const HomePage = () => {
           premium headline, search controls and primary CTAs.
       ======================================================== */}
       <section className="home-hero">
-        <div className="home-hero__image" style={{ backgroundImage: `url(${HERO_IMAGE})` }} aria-hidden="true" />
+        <div className="home-hero__image" style={{ backgroundImage: `url("${HERO_IMAGE}")` }} aria-hidden="true" />
         <div className="home-hero__overlay" aria-hidden="true" />
 
         <div className="container home-hero__inner">
-          <div className="home-hero__copy">
-            <span className="home-hero__eyebrow">
-              <span className="home-hero__eyebrow-dot" />
-              India's Trusted House Rental Platform
-            </span>
+          <div className="home-hero__topline">
+            <div className="home-hero__copy">
+              <span className="home-hero__eyebrow">
+                <span className="home-hero__eyebrow-dot" />
+                India's Trusted House Rental Platform
+              </span>
 
-            <h1 className="home-hero__title">
-              Find Your Perfect Home.
-              <span>Anywhere in India.</span>
-            </h1>
+              <h1 className="home-hero__title">
+                Find Your
+                <span>Perfect Home.</span>
+              </h1>
 
-            <p className="home-hero__description">
-              Discover verified rental homes, apartments and rooms from real owners in your city.
-              Comfortable living, made simple.
-            </p>
+              <p className="home-hero__description">
+                Discover verified rental homes, apartments and rooms from real owners in your city.
+                Comfortable living, made simple.
+              </p>
+            </div>
+            <div className="home-hero__community" aria-label="Trusted rental homes">
+              <span className="home-hero__community-mark" aria-hidden="true">✓</span>
+              <span><strong>Trusted homes</strong><small>Find your next place with confidence</small></span>
+            </div>
           </div>
 
-          {/* ======================================================
-              HERO SEARCH PANEL
-              Search by location, property type and rent budget.
-          ====================================================== */}
-          <form className="home-search" onSubmit={handleHeroSearch}>
-            <div className="home-search__fields">
-              <label className="home-search__field home-search__field--location">
-                <span className="home-search__label">Location</span>
-                <span className="home-search__control">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12A7 7 0 0 0 5 9c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
-                  <input
-                    value={heroSearch.city}
-                    onChange={(e) => setHeroSearch((s) => ({ ...s, city: e.target.value }))}
-                    placeholder="Where do you want to live?"
-                    aria-label="Location"
-                  />
-                </span>
-              </label>
-
-              <label className="home-search__field">
-                <span className="home-search__label">Property Type</span>
-                <span className="home-search__control">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-7 9 7v9H3v-9Z"/><path d="M9 20v-5h6v5"/></svg>
-                  <select
-                    value={heroSearch.propertyType}
-                    onChange={(e) => setHeroSearch((s) => ({ ...s, propertyType: e.target.value }))}
-                    aria-label="Property type"
-                  >
-                    <option value="">House / Flat / Room</option>
-                    <option value="house">House</option>
-                    <option value="apartment">Apartment / Flat</option>
-                    <option value="room">Room</option>
-                    <option value="villa">Villa</option>
-                  </select>
-                </span>
-              </label>
-
-              <label className="home-search__field">
-                <span className="home-search__label">Budget</span>
-                <span className="home-search__control">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M16 7.5c-.6-1-1.8-1.5-3.6-1.5C10.4 6 9 7 9 8.5c0 3.5 7 1.8 7 5 0 1.6-1.5 2.5-3.5 2.5-1.8 0-3.2-.5-4-1.8"/></svg>
-                  <select
-                    value={`${heroSearch.minRent}-${heroSearch.maxRent}`}
-                    onChange={(e) => {
-                      const [minRent, maxRent] = e.target.value.split('-');
-                      setHeroSearch((s) => ({ ...s, minRent: minRent || '', maxRent: maxRent || '' }));
-                    }}
-                    aria-label="Monthly budget"
-                  >
-                    <option value="-">Min - Max</option>
-                    <option value="-10000">Under ₹10,000</option>
-                    <option value="10000-20000">₹10,000 - ₹20,000</option>
-                    <option value="20000-35000">₹20,000 - ₹35,000</option>
-                    <option value="35000-">₹35,000+</option>
-                  </select>
-                </span>
-              </label>
+          <div className="home-search-wrap">
+            <div className="home-search__tabs" role="group" aria-label="Choose what to search for">
+              <button
+                type="button"
+                className={`home-search__tab ${searchMode === 'home' ? 'home-search__tab--active' : ''}`}
+                onClick={() => selectSearchMode('home')}
+                aria-pressed={searchMode === 'home'}
+              >
+                <span aria-hidden="true">⌂</span> Rent a Home
+              </button>
+              <button
+                type="button"
+                className={`home-search__tab ${searchMode === 'room' ? 'home-search__tab--active' : ''}`}
+                onClick={() => selectSearchMode('room')}
+                aria-pressed={searchMode === 'room'}
+              >
+                <span aria-hidden="true">▤</span> Find a Room
+              </button>
             </div>
 
-            <div className="home-search__actions">
-              <button type="submit" className="home-btn home-btn--primary">
+            <form className="home-search" onSubmit={handleHeroSearch}>
+              <div className="home-search__fields">
+                <label className="home-search__field home-search__field--location">
+                  <span className="home-search__label">Location</span>
+                  <span className="home-search__control">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12A7 7 0 0 0 5 9c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
+                    <input
+                      value={heroSearch.city}
+                      onChange={(e) => setHeroSearch((s) => ({ ...s, city: e.target.value }))}
+                      placeholder="Enter city, locality or landmark"
+                      aria-label="Location"
+                    />
+                  </span>
+                </label>
+
+                <label className="home-search__field">
+                  <span className="home-search__label">Property type</span>
+                  <span className="home-search__control">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-7 9 7v9H3v-9Z"/><path d="M9 20v-5h6v5"/></svg>
+                    <select
+                      value={heroSearch.propertyType}
+                      onChange={(e) => {
+                        const propertyType = e.target.value;
+                        setHeroSearch((s) => ({ ...s, propertyType }));
+                        setSearchMode(propertyType === 'room' ? 'room' : 'home');
+                      }}
+                      aria-label="Property type"
+                    >
+                      <option value="">All homes</option>
+                      <option value="house">House</option>
+                      <option value="apartment">Apartment / Flat</option>
+                      <option value="room">Room</option>
+                      <option value="villa">Villa</option>
+                    </select>
+                  </span>
+                </label>
+
+                <label className="home-search__field home-search__field--rent">
+                  <span className="home-search__label">Min rent</span>
+                  <span className="home-search__control">
+                    <span className="home-search__currency" aria-hidden="true">₹</span>
+                    <select
+                      value={heroSearch.minRent}
+                      onChange={(e) => setHeroSearch((s) => ({ ...s, minRent: e.target.value }))}
+                      aria-label="Minimum monthly rent"
+                    >
+                      <option value="">No minimum</option>
+                      <option value="5000">₹5,000</option>
+                      <option value="10000">₹10,000</option>
+                      <option value="15000">₹15,000</option>
+                      <option value="20000">₹20,000</option>
+                      <option value="30000">₹30,000</option>
+                      <option value="50000">₹50,000</option>
+                    </select>
+                  </span>
+                </label>
+
+                <label className="home-search__field home-search__field--rent">
+                  <span className="home-search__label">Max rent</span>
+                  <span className="home-search__control">
+                    <span className="home-search__currency" aria-hidden="true">₹</span>
+                    <select
+                      value={heroSearch.maxRent}
+                      onChange={(e) => setHeroSearch((s) => ({ ...s, maxRent: e.target.value }))}
+                      aria-label="Maximum monthly rent"
+                    >
+                      <option value="">No maximum</option>
+                      <option value="10000">₹10,000</option>
+                      <option value="20000">₹20,000</option>
+                      <option value="30000">₹30,000</option>
+                      <option value="50000">₹50,000</option>
+                      <option value="75000">₹75,000</option>
+                      <option value="100000">₹1,00,000</option>
+                    </select>
+                  </span>
+                </label>
+              </div>
+
+              <button type="submit" className="home-btn home-btn--primary home-search__submit">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 5 5"/></svg>
                 Search Properties
               </button>
-              <Link to="/auth/register" className="home-btn home-btn--secondary">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-                List Your Property
-              </Link>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </section>
 
@@ -260,7 +310,7 @@ const HomePage = () => {
                 Encourages property owners to join Rentify.
             ==================================================== */}
             <aside className="owner-cta">
-              <div className="owner-cta__background" style={{ backgroundImage: `url(${HERO_IMAGE})` }} />
+              <div className="owner-cta__background" style={{ backgroundImage: `url("${HERO_IMAGE}")` }} />
               <div className="owner-cta__content">
                 <span className="owner-cta__eyebrow">Have a property to rent?</span>
                 <h3>List Your Property<br />on Rentify</h3>

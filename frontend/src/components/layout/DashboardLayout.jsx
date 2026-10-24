@@ -102,7 +102,7 @@ const DashboardLayout = ({ navItems = [], role, children }) => {
   );
 
   return (
-    <div className="dashboard-layout">
+    <div className={`dashboard-layout dashboard-layout--${role}`}>
       {/* Mobile topbar */}
       <header className="db-topbar">
         <button

@@ -89,7 +89,7 @@ const PropertiesPage = () => {
           </aside>
 
           {/* Main content */}
-          <main className="properties-page__main" id="main-content">
+          <div className="properties-page__main">
 
             {/* Desktop sort + count row */}
             <div className="pp-results-row">
@@ -128,7 +128,7 @@ const PropertiesPage = () => {
                 )}
               </>
             )}
-          </main>
+          </div>
         </div>
       </div>
 

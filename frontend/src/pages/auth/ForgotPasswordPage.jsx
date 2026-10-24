@@ -10,24 +10,39 @@ const ForgotPasswordPage = () => {
 
   const [email, setEmail]         = useState('');
   const [emailError, setEmailError] = useState('');
+  const [requestError, setRequestError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent]           = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email.trim()) { setEmailError('Email is required.'); return; }
-    if (!/\S+@\S+\.\S+/.test(email)) { setEmailError('Enter a valid email address.'); return; }
+    const normalizedEmail = email.trim();
+    if (!normalizedEmail) { setEmailError('Email is required.'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setEmailError('Enter a valid email address.');
+      return;
+    }
 
     setSubmitting(true);
-    await forgotPassword(email.trim());
-    setSubmitting(false);
-    setSent(true);
+    setRequestError('');
+    try {
+      const result = await forgotPassword(normalizedEmail);
+      if (!result?.success) {
+        setRequestError(result?.message || 'Unable to send a reset link. Please try again.');
+        return;
+      }
+      setSent(true);
+    } catch (error) {
+      setRequestError(error.message || 'Unable to send a reset link. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
+    <div className="auth-page auth-page--forgot">
+      <div className="auth-card auth-card--forgot">
         <div className="auth-card__logo" aria-hidden="true">
           <svg width="36" height="36" viewBox="0 0 28 28" fill="none">
             <path d="M4 11.5L14 4l10 7.5V24a1 1 0 01-1 1H5a1 1 0 01-1-1V11.5z"
@@ -75,8 +90,10 @@ const ForgotPasswordPage = () => {
                 error={emailError}
                 required
                 autoComplete="email"
+                autoFocus
                 disabled={submitting}
               />
+              {requestError && <p className="auth-card__request-error" role="alert">{requestError}</p>}
               <Button
                 type="submit"
                 fullWidth

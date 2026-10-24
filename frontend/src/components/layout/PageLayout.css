@@ -6,6 +6,10 @@
   min-height: 100vh;
 }
 
+.page-layout--immersive-auth {
+  overflow-x: clip;
+}
+
 .page-layout__main {
   flex: 1;
   display: flex;

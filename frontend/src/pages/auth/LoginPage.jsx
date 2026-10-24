@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
@@ -9,9 +9,9 @@ import './AuthPages.css';
 const LoginPage = () => {
   const navigate  = useNavigate();
   const location  = useLocation();
-  const { login, loading, isAuthenticated, user } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
 
-  const [form, setForm]     = useState({ email: '', password: '' });
+  const [form, setForm]     = useState({ email: '', password: '', role: 'renter' });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState('');
@@ -19,8 +19,7 @@ const LoginPage = () => {
   // Already logged in — redirect away
   if (isAuthenticated && user) {
     const dest = user.role === 'owner' ? '/dashboard/owner' : '/dashboard/renter';
-    navigate(dest, { replace: true });
-    return null;
+    return <Navigate to={dest} replace />;
   }
 
   const change = (field) => (e) => {
@@ -45,7 +44,11 @@ const LoginPage = () => {
     setSubmitting(true);
     setServerError('');
 
-    const result = await login({ email: form.email.trim(), password: form.password });
+    const result = await login({
+      email: form.email.trim(),
+      password: form.password,
+      role: form.role,
+    });
 
     setSubmitting(false);
 
@@ -54,26 +57,51 @@ const LoginPage = () => {
       return;
     }
 
-    // Redirect to the page they were trying to reach, or role dashboard
-    const from = location.state?.from;
-    const dest = from || (result.user.role === 'owner' ? '/dashboard/owner' : '/dashboard/renter');
+    const requestedPath = location.state?.from;
+    const roleHome = result.user.role === 'owner' ? '/dashboard/owner' : '/dashboard/renter';
+    const rolePrefix = result.user.role === 'owner' ? '/owner' : '/renter';
+    const isAllowedDestination = typeof requestedPath === 'string'
+      && (requestedPath === roleHome || requestedPath.startsWith(`${rolePrefix}/`));
+    const dest = isAllowedDestination ? requestedPath : roleHome;
     navigate(dest, { replace: true });
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-card__logo" aria-hidden="true">
-          <svg width="36" height="36" viewBox="0 0 28 28" fill="none">
-            <path d="M4 11.5L14 4l10 7.5V24a1 1 0 01-1 1H5a1 1 0 01-1-1V11.5z"
-              fill="var(--color-primary-500)" stroke="var(--color-primary-500)"
-              strokeWidth="1.5" strokeLinejoin="round"/>
-            <rect x="10" y="16" width="8" height="9" rx="1"
-              fill="var(--color-secondary-500)" stroke="var(--color-secondary-500)" strokeWidth="1"/>
-          </svg>
-        </div>
+    <div className="auth-page auth-page--login">
+      <div className="auth-login">
+        <section className="auth-login__intro" aria-label="Welcome to Rentify">
+          <div className="auth-login__intro-copy">
+            <span className="auth-login__eyebrow"><span aria-hidden="true">⌂</span> Welcome to Rentify</span>
+            <h2>Your next<br />chapter starts<br /><span>at home.</span></h2>
+            <p>Find a place to call home, connect with owners, and make your next move with confidence.</p>
 
-        <h1 className="auth-card__title">Welcome back</h1>
+            <div className="auth-login__features">
+              <div>
+                <span className="auth-login__feature-icon auth-login__feature-icon--violet" aria-hidden="true">⌂</span>
+                <span><strong>Find verified homes</strong><small>Explore genuine listings from trusted owners</small></span>
+              </div>
+              <div>
+                <span className="auth-login__feature-icon auth-login__feature-icon--blue" aria-hidden="true">▤</span>
+                <span><strong>Connect with owners</strong><small>Keep all your property conversations together</small></span>
+              </div>
+              <div>
+                <span className="auth-login__feature-icon auth-login__feature-icon--green" aria-hidden="true">✓</span>
+                <span><strong>One account, more options</strong><small>Choose the workspace that fits your journey</small></span>
+              </div>
+            </div>
+
+            <div className="auth-login__community">
+              <span className="auth-login__community-avatars" aria-hidden="true">
+                <i>R</i><i>H</i><i>A</i>
+              </span>
+              <span className="auth-login__community-count">10K+</span>
+              <span className="auth-login__community-copy">renters finding<br />their perfect home</span>
+            </div>
+          </div>
+        </section>
+
+        <div className="auth-card auth-login__card">
+        <h1 className="auth-card__title">Welcome <span>back</span></h1>
         <p className="auth-card__sub">Sign in to your Rentify account</p>
 
         {serverError && (
@@ -85,6 +113,40 @@ const LoginPage = () => {
         )}
 
         <form className="auth-card__form" onSubmit={handleSubmit} noValidate>
+          <fieldset className="login-role">
+            <legend className="login-role__heading">Choose your account type</legend>
+            <div className="login-role__options">
+              <button
+                type="button"
+                className={`login-role__option ${form.role === 'renter' ? 'login-role__option--active' : ''}`}
+                onClick={() => {
+                  setForm((current) => ({ ...current, role: 'renter' }));
+                  setServerError('');
+                }}
+                aria-pressed={form.role === 'renter'}
+                disabled={submitting}
+              >
+                <span className="login-role__icon" aria-hidden="true">⌂</span>
+                <span className="login-role__copy"><strong>Login as a renter</strong><small>Find and manage your home</small></span>
+                <span className="login-role__check" aria-hidden="true">{form.role === 'renter' ? '✓' : ''}</span>
+              </button>
+              <button
+                type="button"
+                className={`login-role__option ${form.role === 'owner' ? 'login-role__option--active' : ''}`}
+                onClick={() => {
+                  setForm((current) => ({ ...current, role: 'owner' }));
+                  setServerError('');
+                }}
+                aria-pressed={form.role === 'owner'}
+                disabled={submitting}
+              >
+                <span className="login-role__icon" aria-hidden="true">⌂</span>
+                <span className="login-role__copy"><strong>Login as an owner</strong><small>Manage your listings and inquiries</small></span>
+                <span className="login-role__check" aria-hidden="true">{form.role === 'owner' ? '✓' : ''}</span>
+              </button>
+            </div>
+          </fieldset>
+
           <Input
             label="Email address"
             type="email"
@@ -131,6 +193,8 @@ const LoginPage = () => {
             Create one
           </Link>
         </p>
+        </div>
+
       </div>
     </div>
   );

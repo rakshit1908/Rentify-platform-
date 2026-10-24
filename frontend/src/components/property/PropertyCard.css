@@ -211,27 +211,28 @@
 /* ============================================================
    HOMEPAGE VISUAL OVERRIDES
    Keeps the reusable PropertyCard functional while matching
-   Rentify's new warm premium landing-page aesthetic.
+   Rentify's blue landing-page aesthetic without changing cards
+   used elsewhere in the app.
    ============================================================ */
-.property-card {
-  border-color: #ebe7df;
+.rentify-home .property-card {
+  border-color: #e5eaf2;
   border-radius: 16px;
-  box-shadow: 0 7px 22px rgba(32,30,24,.07);
+  box-shadow: 0 7px 22px rgba(32,45,75,.07);
   background: #fff;
 }
-.property-card:hover { border-color: #e5c98e; box-shadow: 0 17px 34px rgba(32,30,24,.12); transform: translateY(-5px); }
-.property-card__image-wrapper { padding-top: 68%; background: #f1eee8; }
-.property-card__image { transition: transform .45s ease; }
-.property-card__badges { top: 11px; left: 11px; }
-.property-card__fav { top: 11px; right: 11px; width: 34px; height: 34px; color: #5d6068; border: 1px solid rgba(255,255,255,.7); }
-.property-card__body { padding: 16px 17px 12px; gap: 7px; }
-.property-card__type { color: #c27b07; letter-spacing: .08em; }
-.property-card__title { font-size: 16px; }
-.property-card__title-link:hover { color: #c27b07; }
-.property-card__location { font-size: 11px; }
-.property-card__stats { gap: 10px; }
-.property-card__stat { font-size: 11px; }
-.property-card__footer { padding: 12px 17px 15px; background: #fff; border-top-color: #f0ede7; }
-.property-card__price-value { color: #191d2d; font-size: 18px; }
-.property-card__cta { color: #c27b07; }
-.property-card__cta:hover { color: #9f6202; }
+.rentify-home .property-card:hover { border-color: #b9cdf4; box-shadow: 0 17px 34px rgba(32,45,75,.12); transform: translateY(-5px); }
+.rentify-home .property-card__image-wrapper { padding-top: 68%; background: #eef2f8; }
+.rentify-home .property-card__image { transition: transform .45s ease; }
+.rentify-home .property-card__badges { top: 11px; left: 11px; }
+.rentify-home .property-card__fav { top: 11px; right: 11px; width: 34px; height: 34px; color: #5d6068; border: 1px solid rgba(255,255,255,.7); }
+.rentify-home .property-card__body { padding: 16px 17px 12px; gap: 7px; }
+.rentify-home .property-card__type { color: #2864dc; letter-spacing: .08em; }
+.rentify-home .property-card__title { font-size: 16px; }
+.rentify-home .property-card__title-link:hover { color: #2864dc; }
+.rentify-home .property-card__location { font-size: 11px; }
+.rentify-home .property-card__stats { gap: 10px; }
+.rentify-home .property-card__stat { font-size: 11px; }
+.rentify-home .property-card__footer { padding: 12px 17px 15px; background: #fff; border-top-color: #e9edf4; }
+.rentify-home .property-card__price-value { color: #191d2d; font-size: 18px; }
+.rentify-home .property-card__cta { color: #2864dc; }
+.rentify-home .property-card__cta:hover { color: #1c4fae; }

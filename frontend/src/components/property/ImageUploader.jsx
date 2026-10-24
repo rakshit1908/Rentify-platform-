@@ -11,9 +11,17 @@ import './ImageUploader.css';
  *   existingImages  — [{ id, image_url, is_primary }] already saved
  *   onImagesChange  — called when saved images list changes
  */
-const ImageUploader = ({ propertyId, existingImages = [], onImagesChange }) => {
+const ImageUploader = ({ propertyId, existingImages = [], initialFiles = [], onImagesChange }) => {
   // Pending files (not yet uploaded)
-  const [pending, setPending] = useState([]);   // [{ id, file, previewUrl, error }]
+  const [pending, setPending] = useState(() => initialFiles.map((file) => {
+    const { valid, error } = validateImageFile(file);
+    return {
+      id: `pending-${Date.now()}-${Math.random()}`,
+      file,
+      previewUrl: createPreviewUrl(file),
+      error: valid ? null : error,
+    };
+  }));
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [globalError, setGlobalError] = useState('');

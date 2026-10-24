@@ -1,12 +1,10 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import PageLayout         from '../components/layout/PageLayout';
-import ProtectedRoute     from './ProtectedRoute';
 import RoleProtectedRoute from './RoleProtectedRoute';
 
 // Public
 import HomePage           from '../pages/public/HomePage';
-import PropertiesPage     from '../pages/public/PropertiesPage';
 import PropertyDetailPage from '../pages/public/PropertyDetailPage';
 import AboutPage          from '../pages/public/AboutPage';
 import NotFoundPage       from '../pages/public/NotFoundPage';
@@ -29,6 +27,8 @@ import OwnerInquiriesPage  from '../pages/owner/OwnerInquiriesPage';
 import RenterDashboard     from '../pages/renter/RenterDashboard';
 import RenterFavoritesPage from '../pages/renter/RenterFavoritesPage';
 import RenterInquiriesPage from '../pages/renter/RenterInquiriesPage';
+import RenterProfilePage   from '../pages/renter/RenterProfilePage';
+import RenterPropertiesRoute from '../pages/renter/RenterPropertiesRoute';
 
 const OwnerOnly  = ({ children }) => <RoleProtectedRoute role="owner">{children}</RoleProtectedRoute>;
 const RenterOnly = ({ children }) => <RoleProtectedRoute role="renter">{children}</RoleProtectedRoute>;
@@ -38,7 +38,6 @@ const AppRouter = () => (
     {/* ── Public layout (Navbar + Footer) ─────────────────── */}
     <Route element={<PageLayout />}>
       <Route index                 element={<HomePage />} />
-      <Route path="properties"     element={<PropertiesPage />} />
       <Route path="properties/:id" element={<PropertyDetailPage />} />
       <Route path="about"          element={<AboutPage />} />
 
@@ -52,6 +51,8 @@ const AppRouter = () => (
       <Route path="*"         element={<NotFoundPage />} />
     </Route>
 
+    <Route path="properties" element={<RenterPropertiesRoute />} />
+
     {/* ── Owner routes (no Navbar/Footer — DashboardLayout) ── */}
     <Route path="dashboard/owner"        element={<OwnerOnly><OwnerDashboard /></OwnerOnly>} />
     <Route path="owner/properties"       element={<OwnerOnly><MyPropertiesPage /></OwnerOnly>} />
@@ -64,6 +65,7 @@ const AppRouter = () => (
     <Route path="dashboard/renter"  element={<RenterOnly><RenterDashboard /></RenterOnly>} />
     <Route path="renter/favorites"  element={<RenterOnly><RenterFavoritesPage /></RenterOnly>} />
     <Route path="renter/inquiries"  element={<RenterOnly><RenterInquiriesPage /></RenterOnly>} />
+    <Route path="renter/profile"    element={<RenterOnly><RenterProfilePage /></RenterOnly>} />
   </Routes>
 );
 

@@ -365,7 +365,7 @@
   flex: 1;
   min-width: 0;
 
-  overflow-x: hidden;
+  overflow-x: clip;
 
   background: #f7f8fa;
 }
@@ -531,4 +531,13 @@
   .db-sidebar__logout {
     transition: none;
   }
+}
+
+.dashboard-layout--renter .db-nav-item--active {
+  background: linear-gradient(105deg, #386cf1, #6847dd) !important;
+  box-shadow: inset 3px 0 0 #a9a2ff, 0 6px 16px rgba(56, 73, 197, .28);
+}
+
+.dashboard-layout--renter .db-nav-item:hover:not(.db-nav-item--active) {
+  background: rgba(117, 103, 236, .2) !important;
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
@@ -26,8 +26,7 @@ const RegisterPage = () => {
 
   if (isAuthenticated && user) {
     const dest = user.role === 'owner' ? '/dashboard/owner' : '/dashboard/renter';
-    navigate(dest, { replace: true });
-    return null;
+    return <Navigate to={dest} replace />;
   }
 
   const change = (field) => (e) => {
@@ -86,26 +85,52 @@ const RegisterPage = () => {
     fieldErrors.find((e) => e.field === name)?.message || errors[name] || '';
 
   return (
-    <div className="auth-page">
-      <div className="auth-card auth-card--wide">
-        <div className="auth-card__logo" aria-hidden="true">
-          <svg width="36" height="36" viewBox="0 0 28 28" fill="none">
-            <path d="M4 11.5L14 4l10 7.5V24a1 1 0 01-1 1H5a1 1 0 01-1-1V11.5z"
-              fill="var(--color-primary-500)" stroke="var(--color-primary-500)"
-              strokeWidth="1.5" strokeLinejoin="round"/>
-            <rect x="10" y="16" width="8" height="9" rx="1"
-              fill="var(--color-secondary-500)" stroke="var(--color-secondary-500)" strokeWidth="1"/>
-          </svg>
-        </div>
+    <div className="auth-page auth-page--register">
+      <div className="auth-register">
+        <section className="auth-register__intro" aria-label="Why choose Rentify">
+          <span className="auth-register__eyebrow"><span aria-hidden="true">⌂</span> Join Rentify today</span>
+          <h2>Find a place that feels like <span>yours.</span></h2>
+          <p>Create your account to explore verified homes, connect with trusted owners, and start your next chapter with confidence.</p>
+          <div className="auth-register__benefits">
+            <div>
+              <span aria-hidden="true">⌂</span>
+              <span><strong>Verified listings</strong><small>Discover genuine and trusted properties</small></span>
+            </div>
+            <div>
+              <span aria-hidden="true">↗</span>
+              <span><strong>Direct communication</strong><small>Connect with owners easily</small></span>
+            </div>
+            <div>
+              <span aria-hidden="true">✓</span>
+              <span><strong>Safe &amp; secure</strong><small>Your details are protected</small></span>
+            </div>
+          </div>
+          <div className="auth-register__community">
+            <span className="auth-register__community-avatars" aria-hidden="true"><i>R</i><i>H</i><i>A</i></span>
+            <strong>Find your place</strong>
+            <span>Start your next chapter with Rentify</span>
+          </div>
+        </section>
 
-        <h1 className="auth-card__title">Create your account</h1>
-        <p className="auth-card__sub">Join Rentify — free forever</p>
+        <div className="auth-card auth-card--wide auth-register__card">
+          <div className="auth-card__logo" aria-hidden="true">
+            <svg width="36" height="36" viewBox="0 0 28 28" fill="none">
+              <path d="M4 11.5L14 4l10 7.5V24a1 1 0 01-1 1H5a1 1 0 01-1-1V11.5z"
+                fill="var(--color-primary-500)" stroke="var(--color-primary-500)"
+                strokeWidth="1.5" strokeLinejoin="round"/>
+              <rect x="10" y="16" width="8" height="9" rx="1"
+                fill="var(--color-secondary-500)" stroke="var(--color-secondary-500)" strokeWidth="1"/>
+            </svg>
+          </div>
 
-        {serverError && (
-          <ErrorState type="inline" title={serverError} description="" />
-        )}
+          <h1 className="auth-card__title">Create your <span>account</span></h1>
+          <p className="auth-card__sub">Join Rentify — free forever</p>
 
-        <form className="auth-card__form" onSubmit={handleSubmit} noValidate>
+          {serverError && (
+            <ErrorState type="inline" title={serverError} description="" />
+          )}
+
+          <form className="auth-card__form" onSubmit={handleSubmit} noValidate>
           <div className="auth-card__row">
             <Input
               label="Full name"
@@ -209,14 +234,15 @@ const RegisterPage = () => {
           >
             Create account
           </Button>
-        </form>
+          </form>
 
-        <p className="auth-card__footer-text">
-          Already have an account?{' '}
-          <Link to="/auth/login" className="auth-card__link">
-            Sign in
-          </Link>
-        </p>
+          <p className="auth-card__footer-text">
+            Already have an account?{' '}
+            <Link to="/auth/login" className="auth-card__link">
+              Sign in
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
